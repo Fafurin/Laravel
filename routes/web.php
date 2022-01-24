@@ -13,6 +13,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [\App\Http\Controllers\WelcomeController::class, 'index']);
+
+Route::get('/categories', [\App\Http\Controllers\CategoryController::class, 'index']);
+
+Route::get('/categories/news', [\App\Http\Controllers\NewsController::class, 'index'])
+    ->name('categories::news');
+
+Route::get('/categories/news/{id}', [\App\Http\Controllers\NewsController::class, 'getNews'])
+    ->where('id', '[0-9]+');
+
+//Route::get('/auth', [\App\Http\Controllers\AuthorizationController::class, 'index']);
+//Route::resource('/admin/news', \App\Http\Controllers\Admin\NewsController::class);
