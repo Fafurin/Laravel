@@ -23,5 +23,11 @@ Route::get('/categories/news', [\App\Http\Controllers\NewsController::class, 'in
 Route::get('/categories/news/{id}', [\App\Http\Controllers\NewsController::class, 'getNews'])
     ->where('id', '[0-9]+');
 
+Route::get('/order', [\App\Http\Controllers\OrderController::class, 'index'])
+    ->name('order');
+
+Route::post('/order/create', [\App\Http\Controllers\OrderController::class, 'create'])
+    ->name('order::create');
+
 //Route::get('/auth', [\App\Http\Controllers\AuthorizationController::class, 'index']);
 //Route::resource('/admin/news', \App\Http\Controllers\Admin\NewsController::class);
