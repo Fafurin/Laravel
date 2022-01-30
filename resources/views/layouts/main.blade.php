@@ -10,16 +10,24 @@
     <title>@yield('title')</title>
 </head>
 <body>
-    <div class="header">
-        <h3> This is the header </h3>
-    </div>
+    <div class="row justify-content-center">
+        <div class="col-md-10">
+            <div class="header">
+                <h3> This is the header </h3>
+            </div>
 
-    <div class="content">
-        @yield('content')
-    </div>
+            <div class="content">
+                <div class="row justify-content-center">
+                    <div class="col-md-6">
+                        @yield('content')
+                    </div>
+                </div>
+            </div>
 
-    <div class="footer">
-        <h3> This is the footer </h3>
+            <div class="footer">
+                <h3> This is the footer </h3>
+            </div>
+        </div>
     </div>
 </body>
 </html>

@@ -5,10 +5,11 @@
 @endsection
 
 @section('content')
-    <div>
-            <div>{{ $news['title'] }}</div>
-            <div>{{ $news['body'] }}</div>
-    </div>
+    <div><img src="{{ $item->image }}"></div>
+    <div class="h2">{{ $item->title}}</div>
+    <div class="h4">{{ $item->summary}}</div>
+    <div>{{ $item->content}}</div>
+    <div>{{ $item->publish_date}}</div>
 @endsection
 
 

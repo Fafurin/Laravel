@@ -4,38 +4,31 @@ namespace App\Models;
 
 class News
 {
-    private $news = [
-        1 => [
-            'title' => 'News 1',
-            'body' =>   'Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                         sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                         Aenean et tortor at risus viverra adipiscing at in. Egestas quis ipsum
-                         suspendisse ultrices gravida dictum fusce ut placerat.'
-        ],
-        2 => [
-            'title' => 'News 2',
-            'body' =>   'Ullamcorper dignissim cras tincidunt lobortis feugiat.
-                         Nulla facilisi nullam vehicula ipsum a arcu cursus vitae congue.
-                         Maecenas volutpat blandit aliquam etiam erat velit scelerisque.'
-        ],
-        3 => [
-            'title' => 'News 3',
-            'body' =>   'Amet mauris commodo quis imperdiet massa.
-                         Non blandit massa enim nec dui nunc mattis enim.
-                         Dignissim sodales ut eu sem. Et tortor at risus viverra.'
-        ]
-    ];
+    public function getAllNews(){
+        return \DB::table('news')->get();
+    }
 
-    public function getNews(){
-        $response = [];
-        foreach ($this->news as $id => $item){
-            $response[] = $item;
+    public function getOne(int $cat_id, int $id){
+        $return = [];
+        $news = $this->getByCategoryId($cat_id);
+        foreach ($news as $item){
+            if($item->id == $id)
+                $return = $item;
         }
-        return $response;
+        return $return;
     }
 
-    public function getOne($id){
-        return $this->news[$id];
+    public function getByCategoryId(int $categoryId)
+    {
+        $return = [];
+        $news = $this->getAllNews();
+        foreach ($news as $item) {
+            if($item->category_id == $categoryId) {
+                $return[] = $item;
+            }
+        }
+        return $return;
     }
+
 }
 

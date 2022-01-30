@@ -6,12 +6,15 @@
 
 @section('content')
     <div>
-        @forelse ($categories as $item)
-            <div><a href = '#'>{{ $item }}</a></div>
+        @forelse ($categories as $category)
+            <div><a href = '{{ route('categories::news', ['cat_id' => $category->id]) }}'>{{ $category->title }}</a></div>
         @empty
             <div>No categories</div>
         @endforelse
     </div>
 @endsection
+
+
+
 
 
