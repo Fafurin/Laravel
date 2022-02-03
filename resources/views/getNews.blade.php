@@ -5,6 +5,11 @@
 @endsection
 
 @section('content')
+
+<!--    --><?php
+//        dd($item);
+//    ?>
+
     <div><img src="{{ $item->image }}"></div>
     <div class="h2">{{ $item->title}}</div>
     <div class="h4">{{ $item->summary}}</div>

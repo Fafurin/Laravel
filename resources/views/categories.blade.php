@@ -7,7 +7,7 @@
 @section('content')
     <div>
         @forelse ($categories as $category)
-            <div><a href = '{{ route('categories::news', ['cat_id' => $category->id]) }}'>{{ $category->title }}</a></div>
+            <div><a href = '{{ route('categories::news', ['categoryId' => $category->id]) }}'>{{ $category->title }}</a></div>
         @empty
             <div>No categories</div>
         @endforelse
