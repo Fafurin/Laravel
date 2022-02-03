@@ -3,31 +3,42 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\News;
 use Illuminate\Http\Request;
 
 class NewsController extends Controller
 {
-
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        return "<b>Here will be implemented the ability to display news for our admin in the near future.</b>";
+    public function index(){
+        return view('admin.news', ['news' => News::getNews()]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        return "<b>Here will be implemented the ability to create news for our admin in the near future.</b>";
+    public function create(){
+        return view('admin.create', ['news' => New News()]);
+    }
+
+    public function save(Request $request){
+        $news = News::create([
+            'title' => $request->input('title'),
+            'summary' => $request->input('summary'),
+            'category_id' => $request->input('category'),
+            'source_id' => $request->input('source'),
+            'status_id' => $request->input('status'),
+            'content' => $request->input('content'),
+            'image' => $request->input('image'),
+            'publish_date' => date("Y-m-d H:i:s")
+        ]);
+        $news->save();
+        return redirect()->route('admin::news::index');
+    }
+
+    public function update(News $news){
+        return view('admin.create', ['news' => $news]);
+    }
+
+    public function delete($id){
+        News::deleteNews($id);
+        return redirect()->route('admin::news::index');
+
     }
 
 }
-
-
