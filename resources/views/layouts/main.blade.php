@@ -13,9 +13,9 @@
     <div class="row justify-content-center">
         <div class="col-md-10">
             <div class="header">
-                <h3> This is the header </h3>
+                <hr>
+                @include('blocks.menu')
             </div>
-
             <div class="content">
                 <div class="row justify-content-center">
                     <div class="col-md-6">
@@ -25,7 +25,7 @@
             </div>
 
             <div class="footer">
-                <h3> This is the footer </h3>
+                <hr>
             </div>
         </div>
     </div>
