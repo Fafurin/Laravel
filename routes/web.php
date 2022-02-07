@@ -2,8 +2,12 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\NewsController as AdminNewsController;
+use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
 
 Route::get('/', [\App\Http\Controllers\WelcomeController::class, 'index']);
+
+//Route::get('/{locale}', [\App\Http\Controllers\WelcomeController::class, 'locale'])
+//    ->name('locale');
 
 Route::get('/categories', [\App\Http\Controllers\CategoryController::class, 'index']);
 
@@ -45,3 +49,32 @@ Route::group([
         ->where('id', '[0-9]+')
         ->name('delete');
 });
+
+Route::group([
+    'prefix' => '/admin/categories',
+    'as' => 'admin::categories::'
+], function () {
+    Route::get('/', [AdminCategoryController::class, 'index'] )
+        ->name('index');
+
+    Route::get( '/create',[AdminCategoryController::class, 'create'])
+        ->name('create');
+
+    Route::post( '/save',[AdminCategoryController::class, 'save'])
+        ->name('save');
+
+    Route::get('/update/{category}', [AdminCategoryController::class, 'update'])
+        ->where('category', '[0-9]+')
+        ->name('update');
+
+    Route::get('/delete/{id}',[AdminCategoryController::class, 'delete'])
+        ->where('id', '[0-9]+')
+        ->name('delete');
+});
+
+
+
+
+
+
+

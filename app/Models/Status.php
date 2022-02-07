@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Source extends Model
+class Status extends Model
 {
     use HasFactory;
 
@@ -13,15 +13,14 @@ class Source extends Model
         return $this->hasMany(News::class);
     }
 
-//    public static function getSources(){
-//        return Source::all();
+//    public static function getStatuses(){
+//        return Status::all();
 //    }
 
     public function getList()
     {
-        return Source::select(['id', 'title'])
+        return Status::select(['id', 'title'])
             ->get()
             ->pluck('title', 'id');
     }
-
 }

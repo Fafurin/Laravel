@@ -9,6 +9,10 @@ class Category extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'title'
+    ];
+
     public function news(){
         return $this->hasMany(News::class);
     }
@@ -17,4 +21,10 @@ class Category extends Model
         return Category::all();
     }
 
+    public function getList()
+    {
+        return Category::select(['id', 'title'])
+            ->get()
+            ->pluck('title', 'id');
+    }
 }

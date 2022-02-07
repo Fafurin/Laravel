@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Session;
 
 /**
  * App\Models\News
@@ -55,10 +56,17 @@ class News extends Model
         return $this->belongsTo(Source::class);
     }
 
+    public function status(){
+        return $this->belongsTo(Status::class);
+    }
+
+
 //    protected $with = ['category'];
 
     public static function getByCategoryId(int $categoryId){
-        return News::where('category_id', $categoryId)->get();
+        return static::query()
+            ->where('category_id', $categoryId)
+            ->get();
     }
 
     public static function getOneNews(int $categoryId, int $newsId){
@@ -72,9 +80,23 @@ class News extends Model
         return News::find($id);
     }
 
-    public static function deleteNews($id){
-        News::find($id)->delete();
+    public function rules()
+    {
+        return [
+            'title' => 'required|min:10|max:50|unique:news',
+            'summary' => 'max:100|required',
+            'category_id' => 'required|integer|exists:categories,id',
+            'source_id' => 'required|integer|exists:sources,id',
+            'status_id' => 'required|integer|exists:statuses,id',
+            'image' => 'max:100',
+            'content' => 'required',
+            'publish_date' => 'date'
+        ];
     }
 
-
+    public function validate()
+    {
+        $validator = \Validator::make($this->attributes, static::rules());
+        return !$validator->fails();
+    }
 }
