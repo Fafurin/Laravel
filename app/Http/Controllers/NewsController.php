@@ -3,18 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Models\News;
-use Illuminate\Support\Facades\Session;
 
 class NewsController extends Controller
 {
     public function index(){
-
+        $news = News::orderBy('publish_date', 'desc')
+            ->paginate(10);
+        return view('allNews', ['news' => $news]);
     }
 
     public function list(int $categoryId){
-        if (Session::has('locale')) {
-            \App::setLocale(Session::get('locale'));
-        }
         return view('news', ['news' => News::getByCategoryId($categoryId)]);
     }
 

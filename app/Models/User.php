@@ -2,9 +2,12 @@
 
 namespace App\Models;
 
+use App\Http\Requests\AdminProfileSaveRequest;
+use App\Http\Requests\UserProfileUpdateRequest;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Http\Request;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
@@ -50,6 +53,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'is_admin',
     ];
 
     /**
@@ -70,4 +74,39 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function getUsers(){
+        return User::all();
+    }
+
+    public static function createUser(AdminProfileSaveRequest $request){
+        $user = new User();
+        if($request->post('password') == $request->post('confirm_password')){
+            $user->name = $request->post('name');
+            $user->email = $request->post('email');
+            $user->is_admin = $request->post('is_admin');
+            $user->password = \Hash::make($request->post('password'));
+            $user->save();
+        } else {
+            return false;
+        }
+        return $user;
+    }
+
+    public function updateUser(UserProfileUpdateRequest $request)
+    {
+        $user = \Auth::user();
+        $password = $request->post('password');
+        if(\Hash::check($request->post('current_password'), $user->password)){
+            $user->name = $request->post('name');
+            $user->email = $request->post('email');
+            $user->password = \Hash::make($password);
+            $user->save();
+        } else {
+             return false;
+        }
+        return $user;
+    }
+
+
 }
