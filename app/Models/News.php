@@ -60,9 +60,6 @@ class News extends Model
         return $this->belongsTo(Status::class);
     }
 
-
-//    protected $with = ['category'];
-
     public static function getByCategoryId(int $categoryId){
         return static::query()
             ->where('category_id', $categoryId)
@@ -73,9 +70,6 @@ class News extends Model
         return News::getByCategoryId($categoryId)->find($newsId);
     }
 
-    public static function getNews(){
-        return News::all();
-    }
     public static function getOne($id){
         return News::find($id);
     }

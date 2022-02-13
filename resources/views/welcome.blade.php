@@ -3,7 +3,6 @@
 @section('title')
     Welcome
 @endsection
-@include('blocks.locale')
 @section('content')
     <div>
 

@@ -14,6 +14,7 @@
         <div class="col-md-10">
             <div class="header">
                 <hr>
+                @include('blocks.adminMenu')
                 @include('blocks.menu')
             </div>
             <div class="content">

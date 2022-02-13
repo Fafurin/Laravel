@@ -8,9 +8,4 @@ class WelcomeController extends Controller
         return view('welcome');
     }
 
-    public function locale($locale){
-        \App::setLocale($locale);
-        return view('welcome');
-    }
-
 }

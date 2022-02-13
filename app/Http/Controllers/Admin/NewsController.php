@@ -7,7 +7,6 @@ use App\Models\News;
 use App\Models\Category;
 use App\Models\Source;
 use App\Models\Status;
-use Illuminate\Http\Request;
 use App\Http\Requests\AdminNewsSaveRequest;
 
 class NewsController extends Controller
@@ -19,7 +18,6 @@ class NewsController extends Controller
     }
 
     public function create(Category $category, Source $source, Status $status){
-//        \App::setLocale('en');
         return view("admin.news.create", [
                 'model' => new News(),
                 'categories' => $category->getList(),

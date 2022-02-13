@@ -3,13 +3,17 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\NewsController as AdminNewsController;
 use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
+use App\Http\Controllers\Admin\UserController as AdminUserController;
+use App\Http\Controllers\UserController as UserController;
 
 Route::get('/', [\App\Http\Controllers\WelcomeController::class, 'index']);
 
-//Route::get('/{locale}', [\App\Http\Controllers\WelcomeController::class, 'locale'])
-//    ->name('locale');
+Route::get('/locale/{locale}', [\App\Http\Controllers\LocaleController::class, 'index'])
+    ->where('locale','\w+')
+    ->name('locale');
 
-Route::get('/categories', [\App\Http\Controllers\CategoryController::class, 'index']);
+Route::get('/categories', [\App\Http\Controllers\CategoryController::class, 'index'])
+    ->name('categories');
 
 Route::get('/categories/{categoryId}/news', [\App\Http\Controllers\NewsController::class, 'list'])
     ->where('categoryId', '[0-9]+')
@@ -28,53 +32,88 @@ Route::post('/order/create', [\App\Http\Controllers\OrderController::class, 'cre
 
 Route::get('/db', [\App\Http\Controllers\DbController::class, 'index']);
 
-Route::group([
-    'prefix' => '/admin/news',
-    'as' => 'admin::news::'
-], function () {
-    Route::get('/', [AdminNewsController::class, 'index'] )
-        ->name('index');
+Auth::routes(['register' => false]);
 
-    Route::get( '/create',[AdminNewsController::class, 'create'])
-        ->name('create');
-
-    Route::post( '/save',[AdminNewsController::class, 'save'])
-        ->name('save');
-
-    Route::get('/update/{news}', [AdminNewsController::class, 'update'])
-        ->where('news', '[0-9]+')
-        ->name('update');
-
-    Route::get('/delete/{id}',[AdminNewsController::class, 'delete'])
-        ->where('id', '[0-9]+')
-        ->name('delete');
-});
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::group([
-    'prefix' => '/admin/categories',
-    'as' => 'admin::categories::'
+    'prefix' => '/profiles',
+    'as' => 'profiles::',
+    'middleware' => ['auth']
 ], function () {
-    Route::get('/', [AdminCategoryController::class, 'index'] )
-        ->name('index');
-
-    Route::get( '/create',[AdminCategoryController::class, 'create'])
-        ->name('create');
-
-    Route::post( '/save',[AdminCategoryController::class, 'save'])
+    Route::post( '/save',[UserController::class, 'save'])
         ->name('save');
 
-    Route::get('/update/{category}', [AdminCategoryController::class, 'update'])
-        ->where('category', '[0-9]+')
+    Route::get('/update',[UserController::class, 'update'])
         ->name('update');
-
-    Route::get('/delete/{id}',[AdminCategoryController::class, 'delete'])
-        ->where('id', '[0-9]+')
-        ->name('delete');
 });
 
+//Админка
 
+Route::middleware(['auth', 'rights.restrict'])->prefix('admin')->group(function(){
+    Route::group([
+        'prefix' => '/categories',
+        'as' => 'admin::categories::'
+    ], function () {
+        Route::get('/', [AdminCategoryController::class, 'index'] )
+            ->name('index');
 
+        Route::get( '/create',[AdminCategoryController::class, 'create'])
+            ->name('create');
 
+        Route::post( '/save',[AdminCategoryController::class, 'save'])
+            ->name('save');
 
+        Route::get('/update/{category}', [AdminCategoryController::class, 'update'])
+            ->where('category', '[0-9]+')
+            ->name('update');
 
+        Route::get('/delete/{id}',[AdminCategoryController::class, 'delete'])
+            ->where('id', '[0-9]+')
+            ->name('delete');
+    });
 
+    Route::group([
+        'prefix' => '/news',
+        'as' => 'admin::news::'
+    ], function () {
+        Route::get('/', [AdminNewsController::class, 'index'] )
+            ->name('index');
+
+        Route::get( '/create',[AdminNewsController::class, 'create'])
+            ->name('create');
+
+        Route::post( '/save',[AdminNewsController::class, 'save'])
+            ->name('save');
+
+        Route::get('/update/{news}', [AdminNewsController::class, 'update'])
+            ->where('news', '[0-9]+')
+            ->name('update');
+
+        Route::get('/delete/{id}',[AdminNewsController::class, 'delete'])
+            ->where('id', '[0-9]+')
+            ->name('delete');
+    });
+
+    Route::group([
+        'prefix' => '/profiles',
+        'as' => 'admin::profiles::'
+    ], function () {
+        Route::get('/', [AdminUserController::class, 'index'] )
+            ->name('index');
+
+        Route::get( '/create',[AdminUserController::class, 'create'])
+            ->name('create');
+
+        Route::post( '/save',[AdminUserController::class, 'save'])
+            ->name('save');
+
+        Route::get('/update',[AdminUserController::class, 'update'])
+            ->name('update');
+
+        Route::get('/delete/{id}',[AdminUserController::class, 'delete'])
+            ->where('id', '[0-9]+')
+            ->name('delete');
+    });
+
+});
