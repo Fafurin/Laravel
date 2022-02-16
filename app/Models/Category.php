@@ -27,4 +27,5 @@ class Category extends Model
             ->get()
             ->pluck('title', 'id');
     }
+
 }

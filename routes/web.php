@@ -5,8 +5,11 @@ use App\Http\Controllers\Admin\NewsController as AdminNewsController;
 use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\UserController as UserController;
+use App\Http\Controllers\Admin\ParserController as AdminParserController;
+use App\Http\Controllers\SocialController as SocialController;
 
-Route::get('/', [\App\Http\Controllers\WelcomeController::class, 'index']);
+Route::get('/', [\App\Http\Controllers\WelcomeController::class, 'index'])
+    ->name('main');
 
 Route::get('/locale/{locale}', [\App\Http\Controllers\LocaleController::class, 'index'])
     ->where('locale','\w+')
@@ -33,6 +36,7 @@ Route::post('/order/create', [\App\Http\Controllers\OrderController::class, 'cre
 Route::get('/db', [\App\Http\Controllers\DbController::class, 'index']);
 
 Auth::routes(['register' => false]);
+
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
@@ -116,4 +120,22 @@ Route::middleware(['auth', 'rights.restrict'])->prefix('admin')->group(function(
             ->name('delete');
     });
 
+    Route::group([
+        'prefix' => '/parser',
+        'as' => 'admin::parser::'
+    ], function () {
+        Route::get('/', [AdminParserController::class, 'index'] )
+            ->name('index');
+    });
+
+});
+
+Route::group([
+    'prefix' => '/social',
+    'as' => 'social::'
+], function () {
+    Route::get('/login', [SocialController::class, 'loginVK'] )
+        ->name('login-vk');
+    Route::get('/response', [SocialController::class, 'responseVK'] )
+        ->name('response-vk');
 });

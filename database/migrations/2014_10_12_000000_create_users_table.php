@@ -22,6 +22,13 @@ class CreateUsersTable extends Migration
             $table->rememberToken();
             $table->timestamps();
             $table->boolean('is_admin')->default(false);
+            $table->string('id_in_soc', 20)
+                ->default('')
+                ->comment('id в соцсети');
+            $table->enum('type_auth', ['site', 'vk', 'fb'])
+                ->default('site')
+                ->comment('Тип используемой авторизации');
+            $table->index('id_in_soc');
         });
     }
 
