@@ -24,14 +24,13 @@ class AdminNewsSaveRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => 'required|min:10|max:50|unique:news',
-            'summary' => 'max:100|required',
+            'title' => 'required|min:10|max:300|unique:news',
+            'summary' => 'max:1000|required',
+            'source' => 'max:200',
             'category_id' => 'required|integer|exists:categories,id',
-            'source_id' => 'required|integer|exists:sources,id',
             'status_id' => 'required|integer|exists:statuses,id',
-            'image' => 'max:100',
             'content' => 'required',
-            'publish_date' => 'date'
+//            'publish_date' => 'date'
         ];
     }
 
@@ -46,6 +45,7 @@ class AdminNewsSaveRequest extends FormRequest
             'title' =>(__('labels.title')),
             'summary' =>(__('labels.summary')),
             'content' =>(__('labels.content')),
+            'source' =>(__('labels.source')),
             'publish_date' =>(__('labels.publish_date')),
         ];
     }

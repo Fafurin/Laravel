@@ -21,11 +21,11 @@ class DbController extends Controller
 //        $result = \DB::select($sql, [':id' => '4']);
 
 
-
-            $news = \DB::table('news')->get();
-
-
-        dd($news);
+//
+//            $news = \DB::table('news')->get();
+//
+//
+//        dd($news);
 //        echo "DONE";
 
     }

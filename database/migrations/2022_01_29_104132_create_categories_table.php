@@ -19,6 +19,7 @@ class CreateCategoriesTable extends Migration
                   ->unique()
                   ->nullable(false);
             $table->softDeletes();
+            $table->timestamps();
         });
     }
 

@@ -13,15 +13,14 @@ class NewsController extends Controller
 {
     public function index(){
         $news = News::orderBy('publish_date', 'desc')
-            ->paginate(5);
+            ->paginate(20);
         return view('admin.news.index', ['news' => $news]);
     }
 
-    public function create(Category $category, Source $source, Status $status){
+    public function create(Category $category, Status $status){
         return view("admin.news.create", [
                 'model' => new News(),
                 'categories' => $category->getList(),
-                'sources' => $source->getList(),
                 'statuses' => $status->getList(),
                 'is_succeed' => session('success'),
             ]
@@ -37,11 +36,10 @@ class NewsController extends Controller
             ->with('success', "Данные сохранены");
     }
 
-    public function update(Category $category, News $news, Source $source, Status $status){
+    public function update(Category $category, News $news, Status $status){
         return view("admin.news.create", [
                 'model' => $news,
                 'categories' => $category->getList(),
-                'sources' => $source->getList(),
                 'statuses' => $status->getList(),
             ]
         );

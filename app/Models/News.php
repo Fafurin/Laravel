@@ -45,15 +45,11 @@ class News extends Model
     use HasFactory;
 
     protected $fillable = [
-      'title', 'summary', 'category_id', 'source_id', 'status_id', 'image', 'content', 'publish_date'
+      'title', 'summary', 'category_id', 'source', 'status_id', 'image', 'content', 'publish_date'
     ];
 
     public function category(){
         return $this->belongsTo(Category::class);
-    }
-
-    public function source(){
-        return $this->belongsTo(Source::class);
     }
 
     public function status(){
@@ -79,8 +75,8 @@ class News extends Model
         return [
             'title' => 'required|min:10|max:50|unique:news',
             'summary' => 'max:100|required',
+            'source' => 'max:200',
             'category_id' => 'required|integer|exists:categories,id',
-            'source_id' => 'required|integer|exists:sources,id',
             'status_id' => 'required|integer|exists:statuses,id',
             'image' => 'max:100',
             'content' => 'required',
