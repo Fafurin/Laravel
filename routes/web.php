@@ -126,6 +126,7 @@ Route::middleware(['auth', 'rights.restrict'])->prefix('admin')->group(function(
     ], function () {
         Route::get('/', [AdminParserController::class, 'index'] )
             ->name('index');
+
     });
 
 });

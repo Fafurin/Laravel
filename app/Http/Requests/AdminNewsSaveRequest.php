@@ -24,13 +24,13 @@ class AdminNewsSaveRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => 'required|min:10|max:300|unique:news',
+            'title' => 'required|min:10|max:300|',
             'summary' => 'max:1000|required',
             'source' => 'max:200',
             'category_id' => 'required|integer|exists:categories,id',
             'status_id' => 'required|integer|exists:statuses,id',
             'content' => 'required',
-//            'publish_date' => 'date'
+            'publish_date' => 'date'
         ];
     }
 

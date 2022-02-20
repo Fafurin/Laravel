@@ -17,6 +17,7 @@
                 @include('blocks.adminMenu')
                 @include('blocks.menu')
             </div>
+        </div>
             <div class="content">
                 <div class="row justify-content-center">
                     <div class="col-md-6">
@@ -28,7 +29,7 @@
             <div class="footer">
                 <hr>
             </div>
-        </div>
+
     </div>
 </body>
 </html>

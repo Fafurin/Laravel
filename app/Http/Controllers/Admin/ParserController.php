@@ -3,44 +3,34 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Category;
-use Orchestra\Parser\Xml\Facade as XmlParser;
+use App\Jobs\NewsParsingJob;
 
 class ParserController extends Controller
 {
-    public function index(){
-        $xml = XmlParser::load('https://3dnews.ru/news/rss');
-        $data = $xml->parse([
-            'channel_title' => ['uses' => 'channel.title'],
-            'channel_description' => ['uses' => 'channel.description'],
-            'items' => ['uses' => 'channel.item[title,description,link,category,pubDate]'],
-        ]);
+    public function index()
+    {
+        $sources = [
+            'https://news.yandex.ru/auto.rss',
+            'https://news.yandex.ru/auto_racing.rss',
+            'https://news.yandex.ru/gadgets.rss',
+            'https://news.yandex.ru/index.rss',
+            'https://news.yandex.ru/martial_arts.rss',
+            'https://news.yandex.ru/communal.rss',
+            'https://news.yandex.ru/health.rss',
+            'https://news.yandex.ru/games.rss',
+            'https://news.yandex.ru/internet.rss',
+            'https://news.yandex.ru/cyber_sport.rss',
+            'https://news.yandex.ru/movies.rss',
+            'https://news.yandex.ru/cosmos.rss',
+            'https://news.yandex.ru/culture.rss',
+            'https://news.yandex.ru/championsleague.rss',
+            'https://news.yandex.ru/music.rss',
+            'https://news.yandex.ru/nhl.rss',
+        ];
 
-        foreach ($data['items'] as $item){
-            $categoryTitle = $this->stringProcessing('Технологии и рынок IT. Новости - ','', $item['category'],50);
-            $categories = Category::get()->pluck('title');
-            if (!($categories->contains($categoryTitle))){
-                $category = new Category();
-                $category->fill([
-                    'title' => $categoryTitle
-                ])->save();
-            }
-            $category = Category::where('title', $categoryTitle)->first();
-            $category->news()->create([
-                'title' => mb_substr($item['title'],0,300),
-                'summary' => $this->stringProcessing("&nbsp;"," ", $item['description'], 1000),
-                'source' => $item['link'],
-                'content' => $this->stringProcessing("&nbsp;"," ", $item['description'], 1000),
-                'category_id' => $category->id,
-                'status_id' => 1,
-                'publish_date' => date("Y-m-d H:i:s", strtotime($item['pubDate'])),
-                'image' => 'http://placeimg.com/640/480/any',
-            ]);
+        foreach ($sources as $source) {
+            NewsParsingJob::dispatch($source);
         }
-    }
-
-    protected function stringProcessing(string $str_search, string $str_replace, string $str_target, int $str_length){
-        return mb_substr(str_replace($str_search, $str_replace, htmlentities(trim($str_target))), 0, $str_length);
     }
 }
 
