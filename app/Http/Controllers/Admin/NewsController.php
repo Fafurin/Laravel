@@ -32,7 +32,7 @@ class NewsController extends Controller
         $model = $id ? News::find($id) : new News();
         $model->fill($request->all());
         $model->save();
-        return redirect()->route("admin::news::update", ['news' => $model->id])
+        return redirect()->route("admin::news::index", ['news' => $model->id])
             ->with('success', "Данные сохранены");
     }
 

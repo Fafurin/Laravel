@@ -28,5 +28,6 @@ return [
     'is_admin' => 'Grant administrator rights',
     'update_profile' => 'Update profile',
     'VK' => 'Login via VK',
+    'parser' => 'Download news',
 
 ];

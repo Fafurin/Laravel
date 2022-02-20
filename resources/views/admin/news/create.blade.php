@@ -68,15 +68,15 @@
                 @enderror
             </div>
 
-{{--            <div class="form-group">--}}
-{{--                <label>{{__('labels.publish_date')}}</label>--}}
-{{--                {!! Form::date('publish_date', $model->publish_date ?? old('publish_date'),--}}
-{{--                        ['dataformatas' =>'Y-m-d', 'class' => 'form-control'] )--}}
-{{--                !!}--}}
-{{--                @error('publish_date')--}}
-{{--                <div class="alert alert-danger">{{ $message }}</div>--}}
-{{--                @enderror--}}
-{{--            </div>--}}
+            <div class="form-group">
+                <label>{{__('labels.publish_date')}}</label>
+                {!! Form::date('publish_date', $model->publish_date ?? old('publish_date'),
+                        ['dataformatas' =>'Y-m-d', 'class' => 'form-control'] )
+                !!}
+                @error('publish_date')
+                <div class="alert alert-danger">{{ $message }}</div>
+                @enderror
+            </div>
 
             <div class="form-group">
                 {!! Form::submit(__('labels.save'), ['class' => 'btn btn-success', 'dusk' => 'save-button']) !!}
